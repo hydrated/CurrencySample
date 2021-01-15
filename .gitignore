@@ -219,7 +219,8 @@ fabric.properties
 
 !/gradle/wrapper/gradle-wrapper.jar
 
-# NextBank Customize
+# lol
+.idea
 .idea/codeStyles/Project.xml
 lint-report.html
 
