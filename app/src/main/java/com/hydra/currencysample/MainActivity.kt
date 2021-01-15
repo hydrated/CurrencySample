@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
 
         GlobalScope.launch {
-            HttpClient.run();
+            HttpClient.getCurrencyList();
         }
 
     }
