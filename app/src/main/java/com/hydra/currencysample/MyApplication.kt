@@ -2,6 +2,8 @@ package com.hydra.currencysample
 
 import android.app.Application
 import com.hydra.currencysample.di.myModule
+import com.hydra.currencysample.di.repositoriesModule
+import com.hydra.currencysample.di.viewModelModule
 import org.koin.core.context.startKoin
 
 class MyApplication : Application() {
@@ -10,7 +12,7 @@ class MyApplication : Application() {
         // start Koin!
         startKoin {
             // modules
-            modules(myModule)
+            modules(myModule, repositoriesModule, viewModelModule)
         }
     }
 }

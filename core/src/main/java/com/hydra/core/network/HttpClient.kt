@@ -39,7 +39,6 @@ class HttpClient {
                 .build()
 
             val response = getOkHttpClient().newCall(request).execute()
-            Log.d("hydrated", "" + response)
 
         }
 

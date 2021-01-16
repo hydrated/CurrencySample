@@ -3,6 +3,7 @@ package com.hydra.core.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.Gson
+import com.hydra.core.db.Currency
 
 
 data class CloudCurrency(
@@ -19,10 +20,3 @@ data class CloudCurrency(
         return list
     }
 }
-
-@Entity
-data class Currency(
-    @PrimaryKey
-    val title: String,
-    val description: String
-)
