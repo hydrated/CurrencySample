@@ -36,8 +36,8 @@ class CurrencyDbTest {
     @Throws(Exception::class)
     fun writeAndQueryCurrency() {
         val currency = Currency("title", "value")
-        dao.insert(currency)
         runBlocking {
+            dao.insert(currency)
             val value = dao.queryByTitle("title")
             assert(value.description == "value")
         }
