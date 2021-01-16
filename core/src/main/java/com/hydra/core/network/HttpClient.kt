@@ -2,7 +2,7 @@ package com.hydra.core.network
 
 import android.util.Log
 import com.google.gson.Gson
-import com.hydra.core.model.Currency
+import com.hydra.core.model.CloudCurrency
 import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import java.io.IOException
@@ -59,7 +59,7 @@ class HttpClient {
                 override fun onResponse(call: Call, response: Response) {
                     val dataString = response.body!!.string()
                     val gson = Gson()
-                    val gsonData = gson.fromJson(dataString, Currency::class.java)
+                    val gsonData = gson.fromJson(dataString, CloudCurrency::class.java)
                     // Do some other stuffs with gsonData separately. This doesn't return anything to gsonData.
               // This will eventually be done via another coroutine.
                 }
