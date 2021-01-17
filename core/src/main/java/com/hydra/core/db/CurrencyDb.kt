@@ -1,13 +1,17 @@
 package com.hydra.core.db
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
+import com.google.gson.Gson
+import com.google.gson.JsonElement
+import com.google.gson.reflect.TypeToken
+import com.hydra.core.model.CloudRate
 
-@Database(entities = [Currency::class], version = 1)
+@Database(entities = [Currency::class, CloudRate::class], version = 2)
+@TypeConverters(MapTypeConverter::class)
 abstract class CurrencyDb : RoomDatabase() {
     abstract fun currencyDao(): CurrencyDao
+    abstract fun rateDao(): RateDao
 
     companion object {
 
@@ -28,5 +32,20 @@ abstract class CurrencyDb : RoomDatabase() {
                 .fallbackToDestructiveMigration()
                 .build()
         }
+    }
+}
+
+object MapTypeConverter {
+
+    @TypeConverter
+    @JvmStatic
+    fun stringToMap(value: String): Map<String, Double> {
+        return Gson().fromJson(value,  object : TypeToken<Map<String, Double>>() {}.type)
+    }
+
+    @TypeConverter
+    @JvmStatic
+    fun mapToString(value: Map<String, Double>): String {
+        return if(value == null) "" else Gson().toJson(value)
     }
 }
