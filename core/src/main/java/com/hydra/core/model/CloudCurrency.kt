@@ -14,7 +14,7 @@ data class CloudCurrency(
 ) {
     fun getCurrencies(): List<Currency> {
         val list = ArrayList<Currency>()
-        currencies.values.forEach {
+        currencies.keys.forEach {
             list.add(Currency(it, currencies[it] ?: ""))
         }
         return list
