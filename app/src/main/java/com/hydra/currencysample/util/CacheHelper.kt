@@ -18,7 +18,10 @@ class CacheHelper(
     suspend fun getExchangeRate(): CloudRate {
         if (isCacheExpired(sharePref.lastCachedTimeStamp)) {
             val data = repo.getExchangeRateFromHttp()
-            data?.let { repo.storeExchangeRatesToDb(it) }
+            data?.let {
+                sharePref.lastCachedTimeStamp = System.currentTimeMillis()
+                repo.storeExchangeRatesToDb(it)
+            }
         }
         return repo.getExchangeRateFromDb()
     }
@@ -26,11 +29,14 @@ class CacheHelper(
     suspend fun getAvailableCurrency(): List<Currency> {
         if (isCacheExpired(sharePref.lastCachedTimeStamp)) {
             val data = repo.getCurrenciesListFromHttp()
-            data?.let { repo.storeCurrenciesToDb(it.getCurrencies()) }
+            data?.let {
+                sharePref.lastCachedTimeStamp = System.currentTimeMillis()
+                repo.storeCurrenciesToDb(it.getCurrencies())
+            }
         }
         return repo.getCurrenciesFromDb()
     }
 
-    fun isCacheExpired(time: Long) =
+    private fun isCacheExpired(time: Long) =
         System.currentTimeMillis() - time > TimeUnit.MINUTES.toMillis(30)
 }
