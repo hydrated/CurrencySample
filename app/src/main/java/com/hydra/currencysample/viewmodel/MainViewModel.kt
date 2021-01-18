@@ -15,10 +15,9 @@ import kotlinx.coroutines.withContext
 
 class MainViewModel(
     private val repo: CurrencyRepo,
-    private val sharePref: SharePreferenceHelper
+    private val sharePref: SharePreferenceHelper,
+    private val cacheHelper: CacheHelper
 ) : ViewModel() {
-
-    private val cacheHelper = CacheHelper(repo, sharePref)
 
     private val defaultCurrency = Currency("USD", "United States Dollar")
 

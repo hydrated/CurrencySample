@@ -5,6 +5,7 @@ import com.hydra.core.db.CurrencyDb
 import com.hydra.core.network.HttpClient
 import com.hydra.core.repo.CurrencyRepo
 import com.hydra.core.util.SharePreferenceHelper
+import com.hydra.currencysample.util.CacheHelper
 import com.hydra.currencysample.viewmodel.MainViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -14,6 +15,7 @@ val myModule = module {
     single { CurrencyDb.getInstance(androidApplication()) }
     single { HttpClient() }
     single { getSharedPreferencesHelper(androidApplication()) }
+    single { CacheHelper(get(), get()) }
 }
 
 val repositoriesModule = module {
@@ -21,7 +23,7 @@ val repositoriesModule = module {
 }
 
 val viewModelModule = module {
-    viewModel { MainViewModel(get(), get()) }
+    viewModel { MainViewModel(get(), get(), get()) }
 }
 
 private fun getSharedPreferencesHelper(context: Context): SharePreferenceHelper {
