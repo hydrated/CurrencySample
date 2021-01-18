@@ -37,8 +37,11 @@ class ExchangeRateAdapter :
     }
 
     fun updateAmount(amount: Double) {
-        this.amount = amount
-        notifyDataSetChanged()
+        updateAmountAndRatio(amount, ratioToUsb)
+    }
+
+    fun updateRatio(ratio: Double) {
+        updateAmountAndRatio(amount, ratio)
     }
 
     inner class RateHolder(private val view: View) : RecyclerView.ViewHolder(view) {
@@ -46,9 +49,9 @@ class ExchangeRateAdapter :
             with(view) {
                 title.text = rate.country
                 exchange_rate.text =
-                    NumberFormat.getNumberInstance().format(rate.rate)
+                    NumberFormat.getNumberInstance().format(rate.rate / ratioToUsb)
                 value.text =
-                    NumberFormat.getNumberInstance().format(rate.rate * amount * ratioToUsb)
+                    NumberFormat.getNumberInstance().format(rate.rate * amount / ratioToUsb)
             }
         }
     }

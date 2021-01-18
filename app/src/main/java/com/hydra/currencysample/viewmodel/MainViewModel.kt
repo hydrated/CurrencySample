@@ -28,8 +28,8 @@ class MainViewModel(
 
     private var _amount = MutableLiveData<Double>()
     val amount: LiveData<Double> get() = _amount
-    private var _ratio = MutableLiveData<Double>()
-    val ratio: LiveData<Double> get() = _ratio
+    private var _ratioToUSD = MutableLiveData<Double>()
+    val ratio: LiveData<Double> get() = _ratioToUSD
 
 
     fun getExchangeRate() {
@@ -54,5 +54,9 @@ class MainViewModel(
 
     fun setAmount(it: Double) {
         _amount.postValue(it)
+    }
+
+    fun onRateListItemSelected(position: Int) {
+        _ratioToUSD.postValue(_rateList?.get(position)?.rate)
     }
 }

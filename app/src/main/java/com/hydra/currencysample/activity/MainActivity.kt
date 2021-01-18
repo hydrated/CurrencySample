@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.hydra.currencysample.R
@@ -40,8 +43,21 @@ class MainActivity : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             }
-
         })
+        spinner_currency.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                viewModel.onRateListItemSelected(position)
+            }
+
+        }
     }
 
     private fun setupData() {
@@ -50,13 +66,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupObservers() {
-        viewModel.currencies.observe(this, Observer {
+        viewModel.currencies.observe(this, Observer { list ->
+            spinner_currency.adapter = ArrayAdapter<String>(
+                this,
+                R.layout.support_simple_spinner_dropdown_item,
+                android.R.id.text1,
+                list.map { it.title }
+            )
         })
         viewModel.rateList.observe(this, Observer {
             adapter.submitList(it)
         })
         viewModel.amount.observe(this, Observer {
             adapter.updateAmount(it)
+        })
+        viewModel.ratio.observe(this, Observer {
+            adapter.updateRatio(it)
         })
     }
 
