@@ -13,6 +13,10 @@ class SharePreferenceHelper constructor(private val context: Context) {
     private val sharedPreferences: SharedPreferences
         get() = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
 
+    var lastCachedTimeStamp: Long
+        get() = getLong(KEY_LAST_CACHE)
+        set(value) = setLong(KEY_LAST_CACHE, value)
+
     fun getLong(key: String): Long {
         return sharedPreferences.getLong(key, 0)
     }

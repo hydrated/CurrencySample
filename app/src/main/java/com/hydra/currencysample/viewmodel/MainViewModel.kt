@@ -7,13 +7,18 @@ import androidx.lifecycle.viewModelScope
 import com.hydra.core.db.Currency
 import com.hydra.core.model.ExchangeRate
 import com.hydra.core.repo.CurrencyRepo
+import com.hydra.core.util.SharePreferenceHelper
+import com.hydra.currencysample.util.CacheHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MainViewModel(
-    private val repo: CurrencyRepo
+    private val repo: CurrencyRepo,
+    private val sharePref: SharePreferenceHelper
 ) : ViewModel() {
+
+    private val cacheHelper = CacheHelper(repo, sharePref)
 
     private val defaultCurrency = Currency("USD", "United States Dollar")
 
@@ -36,9 +41,7 @@ class MainViewModel(
     fun getExchangeRate() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val data = repo.getExchangeRateFromHttp()
-                data?.let { repo.storeExchangeRatesToDb(it) }
-                _rateList = repo.getExchangeRateFromDb().getRateList()
+                _rateList = cacheHelper.getExchangeRate().getRateList()
             }
         }
     }
@@ -46,9 +49,7 @@ class MainViewModel(
     fun getAvailableCurrency() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val data = repo.getCurrenciesListFromHttp()
-                repo.storeCurrenciesToDb(data!!.getCurrencies())
-                _currencies.postValue(repo.getCurrenciesFromDb())
+                _currencies.postValue(cacheHelper.getAvailableCurrency())
             }
         }
     }

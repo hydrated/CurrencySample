@@ -21,7 +21,7 @@ val repositoriesModule = module {
 }
 
 val viewModelModule = module {
-    viewModel { MainViewModel(get()) }
+    viewModel { MainViewModel(get(), get()) }
 }
 
 private fun getSharedPreferencesHelper(context: Context): SharePreferenceHelper {
