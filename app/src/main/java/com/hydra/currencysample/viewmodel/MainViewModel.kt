@@ -1,11 +1,11 @@
 package com.hydra.currencysample.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hydra.core.db.Currency
+import com.hydra.core.model.ExchangeRate
 import com.hydra.core.repo.CurrencyRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,13 +16,22 @@ class MainViewModel(
 ) : ViewModel() {
 
     private val _currencies = MutableLiveData<List<Currency>>()
-    val currencies : LiveData<List<Currency>>
+    val currencies: LiveData<List<Currency>>
         get() = _currencies
 
-    fun getDataFromHttp() {
+    private var _rateList: List<ExchangeRate>? = null
+        set(value) {
+            field = value
+            value?.let { rateList.postValue(it) }
+        }
+    val rateList: MutableLiveData<List<ExchangeRate>> = MutableLiveData()
+
+    fun getExchangeRate() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val data = repo.getDataFromHttp()
+                val data = repo.getExchangeRateFromHttp()
+                data?.let { repo.storeExchangeRatesToDb(it) }
+                _rateList = repo.getExchangeRateFromDb().getRateList()
             }
         }
     }
@@ -30,9 +39,9 @@ class MainViewModel(
     fun getAvailableCurrency() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val data = repo.getDataFromHttp()
-                repo.storeCurrenciesToDo(data!!.getCurrencies())
-                _currencies.postValue(repo.getDataFromDb())
+                val data = repo.getCurrenciesListFromHttp()
+                repo.storeCurrenciesToDb(data!!.getCurrencies())
+                _currencies.postValue(repo.getCurrenciesFromDb())
             }
         }
     }
