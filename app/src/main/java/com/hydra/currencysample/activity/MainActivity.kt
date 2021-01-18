@@ -9,6 +9,8 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.GridLayoutManager
 import com.hydra.currencysample.R
 import com.hydra.currencysample.adapter.ExchangeRateAdapter
 import com.hydra.currencysample.viewmodel.MainViewModel
@@ -56,7 +58,6 @@ class MainActivity : AppCompatActivity() {
             ) {
                 viewModel.onRateListItemSelected(position)
             }
-
         }
     }
 
@@ -73,6 +74,8 @@ class MainActivity : AppCompatActivity() {
                 android.R.id.text1,
                 list.map { it.title }
             )
+            if (viewModel.getDefaultSpinnerIndex() > 0)
+                spinner_currency.setSelection(viewModel.getDefaultSpinnerIndex())
         })
         viewModel.rateList.observe(this, Observer {
             adapter.submitList(it)

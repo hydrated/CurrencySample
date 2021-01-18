@@ -23,7 +23,7 @@ data class CloudRate(
         quotes.keys.forEach {
             rateList.add(
                 ExchangeRate(
-                    it.replace(Default_Country, ""),
+                    it.removePrefix(Default_Country),
                     quotes[it] ?: 0.0
                 )
             )

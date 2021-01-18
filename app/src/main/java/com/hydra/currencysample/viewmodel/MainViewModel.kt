@@ -15,6 +15,8 @@ class MainViewModel(
     private val repo: CurrencyRepo
 ) : ViewModel() {
 
+    private val defaultCurrency = Currency("USD", "United States Dollar")
+
     private val _currencies = MutableLiveData<List<Currency>>()
     val currencies: LiveData<List<Currency>>
         get() = _currencies
@@ -26,11 +28,10 @@ class MainViewModel(
         }
     val rateList: MutableLiveData<List<ExchangeRate>> = MutableLiveData()
 
-    private var _amount = MutableLiveData<Double>()
+    private var _amount = MutableLiveData<Double>(0.0)
     val amount: LiveData<Double> get() = _amount
-    private var _ratioToUSD = MutableLiveData<Double>()
+    private var _ratioToUSD = MutableLiveData<Double>(1.0)
     val ratio: LiveData<Double> get() = _ratioToUSD
-
 
     fun getExchangeRate() {
         viewModelScope.launch {
@@ -57,6 +58,14 @@ class MainViewModel(
     }
 
     fun onRateListItemSelected(position: Int) {
-        _ratioToUSD.postValue(_rateList?.get(position)?.rate)
+        val item = _rateList?.firstOrNull { it.country == _currencies.value?.get(position)?.title }
+        item?.let {
+            _ratioToUSD.postValue(item.rate)
+        }
     }
+
+    fun getDefaultSpinnerIndex(): Int {
+        return _currencies.value?.indexOf(defaultCurrency) ?: -1
+    }
+
 }

@@ -11,24 +11,25 @@ class CurrencyRepo constructor(
     private val db: CurrencyDb
 ) {
     suspend fun getCurrenciesListFromHttp(): CloudCurrency? {
-        return CloudCurrency(
-            true, "", "", mapOf(
-                "AED" to "WKAODW",
-                "AFN" to "JWIADJW",
-                "ALL" to "jawijdiwjidw"
-            )
-        )
-        //return api.callApi<CloudCurrency>(HttpClient.url_currency_list)
+//        return CloudCurrency(
+//            true, "", "", mapOf(
+//                "AED" to "WKAODW",
+//                "AFN" to "JWIADJW",
+//                "ALL" to "jawijdiwjidw"
+//            )
+//        )
+        return api.callApi<CloudCurrency>(HttpClient.url_currency_list)
     }
 
     suspend fun getExchangeRateFromHttp(): CloudRate? {
-        return CloudRate(
-            true, "term", "privacy", 1610866146, "source", mapOf(
-                "USDAED" to 3.673042,
-                "USDAFN" to 77.203991,
-                "USDALL" to 101.103989
-            )
-        )
+//        return CloudRate(
+//            true, "term", "privacy", 1610866146, "source", mapOf(
+//                "USDAED" to 3.673042,
+//                "USDAFN" to 77.203991,
+//                "USDALL" to 101.103989
+//            )
+//        )
+        return api.callApi<CloudRate>(HttpClient.url_rate_list)
     }
 
     suspend fun storeCurrenciesToDb(currencies: List<Currency>) {
