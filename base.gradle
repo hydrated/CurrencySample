@@ -20,6 +20,9 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutine_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version"
 
+    //UI
+    implementation "androidx.recyclerview:recyclerview:$androidx_appcompat"
+
     testImplementation 'junit:junit:4.12'
     testImplementation "com.squareup.okhttp3:mockwebserver:4.9.0"
     testImplementation "org.koin:koin-test:$koin_version"
