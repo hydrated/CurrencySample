@@ -26,6 +26,12 @@ class MainViewModel(
         }
     val rateList: MutableLiveData<List<ExchangeRate>> = MutableLiveData()
 
+    private var _amount = MutableLiveData<Double>()
+    val amount: LiveData<Double> get() = _amount
+    private var _ratio = MutableLiveData<Double>()
+    val ratio: LiveData<Double> get() = _ratio
+
+
     fun getExchangeRate() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
@@ -44,5 +50,9 @@ class MainViewModel(
                 _currencies.postValue(repo.getCurrenciesFromDb())
             }
         }
+    }
+
+    fun setAmount(it: Double) {
+        _amount.postValue(it)
     }
 }

@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">CurrencySample</string>
-    <string name="exchange_rate">"exchange rate : "</string>
+    <string name="exchange_rate">"rate : "</string>
 </resources>

@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.hydra.core.db.MapTypeConverter
 
-const val Default_Country = "USA"
+const val Default_Country = "USD"
 
 @Entity
 data class CloudRate(

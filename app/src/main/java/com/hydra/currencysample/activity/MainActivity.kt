@@ -1,6 +1,8 @@
 package com.hydra.currencysample.activity
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -24,9 +26,22 @@ class MainActivity : AppCompatActivity() {
         setupData()
     }
 
-    private fun setupUi()  {
+    private fun setupUi() {
         adapter = ExchangeRateAdapter()
         recyclerView.adapter = adapter
+        money_input.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                val value = money_input.text.toString().toDoubleOrNull()
+                value?.let { viewModel.setAmount(it) }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+        })
     }
 
     private fun setupData() {
@@ -39,6 +54,9 @@ class MainActivity : AppCompatActivity() {
         })
         viewModel.rateList.observe(this, Observer {
             adapter.submitList(it)
+        })
+        viewModel.amount.observe(this, Observer {
+            adapter.updateAmount(it)
         })
     }
 

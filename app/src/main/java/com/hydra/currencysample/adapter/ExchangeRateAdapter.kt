@@ -36,6 +36,11 @@ class ExchangeRateAdapter :
         notifyDataSetChanged()
     }
 
+    fun updateAmount(amount: Double) {
+        this.amount = amount
+        notifyDataSetChanged()
+    }
+
     inner class RateHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         fun bind(rate: ExchangeRate) {
             with(view) {
