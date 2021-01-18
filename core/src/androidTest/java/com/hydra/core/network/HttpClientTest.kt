@@ -33,4 +33,17 @@ class HttpClientTest {
             assert(data != null)
         }
     }
+
+    @Test
+    fun guaranteeCurrencyMapCoverToDefaultUSDRateList() {
+        runBlocking {
+            val rate = client.callApi<CloudRate>(HttpClient.url_rate_list)
+            val currency = client.callApi<CloudCurrency>(HttpClient.url_currency_list)
+            assert(rate != null)
+            assert(currency != null)
+            currency?.getCurrencies()?.forEach {
+                assert(rate!!.quotes.containsKey(it.title))
+            }
+        }
+    }
 }
