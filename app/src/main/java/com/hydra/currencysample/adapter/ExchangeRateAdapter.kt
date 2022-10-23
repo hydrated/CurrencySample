@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hydra.core.model.ExchangeRate
 import com.hydra.currencysample.R
-import kotlinx.android.synthetic.main.item_exchange_rate.view.*
 import java.text.NumberFormat
 
 class ExchangeRateAdapter :

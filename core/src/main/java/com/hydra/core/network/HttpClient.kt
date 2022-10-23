@@ -1,8 +1,6 @@
 package com.hydra.core.network
 
-import android.util.Log
 import com.google.gson.Gson
-import com.hydra.core.model.CloudCurrency
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.suspendCancellableCoroutine
 import okhttp3.*
@@ -17,8 +15,8 @@ class HttpClient {
         const val key_title = "access_key"
         const val key = "22c7be4e826ee30d9320a60d154ff01e"
 
-        public const val url_currency_list = "http://api.currencylayer.com/list"
-        public const val url_rate_list = "http://api.currencylayer.com/live"
+        const val url_currency_list = "http://api.currencylayer.com/list"
+        const val url_rate_list = "http://api.currencylayer.com/live"
     }
 
     fun getOkHttpClient(): OkHttpClient {
@@ -33,6 +31,7 @@ class HttpClient {
         return okHttpClient
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     suspend inline fun <reified T> callApi(url : String) : T? {
         val localUrl = url.toHttpUrlOrNull()?.newBuilder()
             ?.addEncodedQueryParameter(key_title, key)
@@ -52,7 +51,7 @@ class HttpClient {
                     val dataString = response.body!!.string()
                     val gson = Gson()
                     val gsonData = gson.fromJson(dataString, T::class.java)
-                    return continuation.resume(gsonData as? T, onCancellation = {
+                    return continuation.resume(gsonData, onCancellation = {
                         //TODO: onCancel
                     })
                 }
