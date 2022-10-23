@@ -8,12 +8,14 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hydra.core.model.ExchangeRate
 import com.hydra.currencysample.R
+import com.hydra.currencysample.databinding.ItemExchangeRateBinding
 import java.text.NumberFormat
 
 class ExchangeRateAdapter :
     ListAdapter<ExchangeRate, ExchangeRateAdapter.RateHolder>(ExchangeRateDiff()) {
     private var amount: Double = 0.0
     private var ratioToUsb: Double = 1.0
+    private lateinit var binding: ItemExchangeRateBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RateHolder {
         return RateHolder(
@@ -46,10 +48,10 @@ class ExchangeRateAdapter :
     inner class RateHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         fun bind(rate: ExchangeRate) {
             with(view) {
-                title.text = rate.country
-                exchange_rate.text =
+                binding.title.text = rate.country
+                binding.exchangeRate.text =
                     NumberFormat.getNumberInstance().format(rate.rate / ratioToUsb)
-                value.text =
+                binding.value.text =
                     NumberFormat.getNumberInstance().format(rate.rate * amount / ratioToUsb)
             }
         }
