@@ -11,10 +11,26 @@ class CurrencyRepo constructor(
     private val db: CurrencyDb
 ) {
     suspend fun getCurrenciesListFromHttp(): CloudCurrency? {
+        if (1 == 1) {
+            return CloudCurrency(true, "123", "123", mapOf(Pair("USD", "123"), Pair("TWD", "twd")))
+        }
         return api.callApi<CloudCurrency>(HttpClient.url_currency_list)
     }
 
     suspend fun getExchangeRateFromHttp(): CloudRate? {
+        if (1 == 1) {
+            return CloudRate(
+                true,
+                "123",
+                "123",
+                Long.MAX_VALUE,
+                "123",
+                mapOf(
+                    Pair("USDTWD", 123.0),
+                    Pair("USDALL", 50.0)
+                )
+            )
+        }
         return api.callApi<CloudRate>(HttpClient.url_rate_list)
     }
 

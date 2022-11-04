@@ -13,7 +13,7 @@ class HttpClient {
 
     companion object {
         const val key_title = "access_key"
-        const val key = "22c7be4e826ee30d9320a60d154ff01e"
+        const val key = "Abt3YhdzpcaTkvBj8VR2dgTAOuvk2rBh"
 
         const val url_currency_list = "http://api.currencylayer.com/list"
         const val url_rate_list = "http://api.currencylayer.com/live"

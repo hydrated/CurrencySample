@@ -22,8 +22,10 @@ class CacheHelper(
                 sharePref.lastCachedTimeStamp = System.currentTimeMillis()
                 repo.storeExchangeRatesToDb(it)
             }
+            return data!!
         }
-        return repo.getExchangeRateFromDb()
+        val data = repo.getExchangeRateFromHttp()
+        return data!!
     }
 
     suspend fun getAvailableCurrency(): List<Currency> {

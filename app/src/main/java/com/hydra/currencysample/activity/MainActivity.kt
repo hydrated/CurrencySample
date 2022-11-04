@@ -3,6 +3,7 @@ package com.hydra.currencysample.activity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -45,37 +46,36 @@ class MainActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             }
         })
-        binding.spinnerCurrency.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
+        binding.spinnerCurrency.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    Log.d("hydrated", "123")
+                }
 
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                viewModel.onRateListItemSelected(position)
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    viewModel.onRateListItemSelected(position)
+                }
             }
-        }
     }
 
     private fun setupData() {
         viewModel.getAvailableCurrency()
         viewModel.getExchangeRate()
+        binding.spinnerCurrency.adapter = ArrayAdapter(
+            this,
+            R.layout.support_simple_spinner_dropdown_item,
+            android.R.id.text1,
+            listOf("USD", "TWD")
+        )
     }
 
     private fun setupObservers() {
-        viewModel.currencies.observe(this, Observer { list ->
-            binding.spinnerCurrency.adapter = ArrayAdapter<String>(
-                this,
-                R.layout.support_simple_spinner_dropdown_item,
-                android.R.id.text1,
-                list.map { it.title }
-            )
-            if (viewModel.getDefaultSpinnerIndex() > 0)
-                binding.spinnerCurrency.setSelection(viewModel.getDefaultSpinnerIndex())
-        })
+
         viewModel.rateList.observe(this, Observer {
             adapter.submitList(it)
         })
